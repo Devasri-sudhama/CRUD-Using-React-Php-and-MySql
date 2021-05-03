@@ -1,9 +1,9 @@
 <?php
 
 $servername = "localhost";
-$username   = "root";
-$password   = "";
-$dbname     = "react_db";
+$username   = "userId";
+$password   = "password";
+$dbname     = "DB Name";
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
 // Check connection

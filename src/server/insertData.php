@@ -2,17 +2,17 @@
 <?php
 
 require('connect.php');
-// header('Access-Control-Allow-Origin: *');
-// response.setHeader("Access-Control-Allow-Methods", "POST, GET");
-print_r($_POST);
-echo"<script>alert('hello')</script>";
+header('Access-Control-Allow-Origin: *');
 
-$name = $_GET['username'];
-$age = $_GET['age'];
-$phone = "74";
+
+$name = $_POST['username'];
+$age = $_POST['age'];
+$phone = $_POST['phone'];
  $insertData = mysqli_query($conn, "INSERT INTO users(name,age,phone) VALUES('$name','$age','$phone')");
- $resultquery = mysqli_query($dbc, $insertData);
+// $resultquery = mysqli_query($conn, $insertData);
+  $last_id = mysqli_insert_id($conn);
   
- $data = json_encode($resultquery); //convert php data to json data
+  print_r($last_id);
+
  
  ?>
