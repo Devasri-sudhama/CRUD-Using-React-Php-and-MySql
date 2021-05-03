@@ -10,7 +10,7 @@ const Footer = () => {
               <div className="copyright-text">
                 <p>
                   ©   <span>{new Date().getFullYear()}</span> {/* Outputs 2020 */}
-                  <a href="#">Company</a>.Created by
+                  <a href="#"></a>.Created by
                   <a href="#">Devasri</a>
                 </p>
               </div>

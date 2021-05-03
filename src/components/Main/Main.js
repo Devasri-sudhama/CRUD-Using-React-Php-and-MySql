@@ -16,19 +16,11 @@ class Main extends React.Component {
       errmsg: "",
       rows: [],
       buttonValue: "Add Record",
+      buttonClassName: "btn btn-primary",
     };
 
     this.handleRemove = this.handleRemove.bind(this);
   }
-
-  // this.state = {};
-  // componentDidMount() {
-  //   //get request
-  //   // url = 'http://localhost/reactJs-dbconn/getData.php';
-  //   axios.get("getData.php").then((res) => {
-  //     this.setState({ data: res.data });
-  //   });
-  // }
 
   handleFormSubmit(event) {
     event.preventDefault();
@@ -57,7 +49,6 @@ class Main extends React.Component {
       formData.append("age", age);
       formData.append("phone", phone);
       console.log(formData);
-      // <Main newRow = {formData} />
       console.log(this.state.data);
       let data = [...this.state.data];
       if (this.state.buttonValue == "Add Record") {
@@ -76,6 +67,7 @@ class Main extends React.Component {
             data.push(newData);
             console.log(data);
             this.setState({ data: data });
+            this.resetForm();
           });
       } else if (this.state.buttonValue == "Update Record") {
         formData.append("userid", this.state.userid);
@@ -102,6 +94,7 @@ class Main extends React.Component {
   resetForm() {
     this.setState({
       buttonValue: "Add Record",
+      buttonClassName: "btn btn-primary",
       userid: "",
       username: "",
       age: "",
@@ -109,16 +102,17 @@ class Main extends React.Component {
     });
   }
   componentDidMount() {
-    //get request
-    // url = 'http://localhost/reactJs-dbconn/getData.php';
+    let status = false;
     axios
       .get("getData.php")
       .then((res) => {
         this.setState({ data: res.data });
       })
       .catch((error) => {
-        this.setState({ data: "" });
-        console.error("Internal Server Error");
+        this.setState({ data: error });
+        alert("Internal Server Error");
+        status = false;
+        return;
       });
   }
   handleRemove(id) {
@@ -134,13 +128,6 @@ class Main extends React.Component {
       .post("http://localhost/reactJs-dbconn/deleteData.php", formData)
       .then((res) => {
         console.log(userid);
-        // for (var i = 0; i < this.state.data.length; i++) {
-        // formData.append("userId", res.data);
-        // console.log(res.id);
-        // data.push(this.formData);
-        // }
-        // data.push(newData);
-        // console.log(res.data);
         for (var i = 0; i < this.state.data.length; i++) {
           if (this.state.data[i].userId == userid) {
             data.splice(i, 1);
@@ -152,21 +139,19 @@ class Main extends React.Component {
     this.setState({
       data: data,
     });
-    //   console.log(i);
   }
 
   handleUpdate(id) {
     console.log(id);
     let userid = id;
-    // let data = [...this.state.data];
-//
-    // let userid = res.id
+
     console.log("Update Id" + userid);
     for (var i = 0; i < this.state.data.length; i++) {
       if (this.state.data[i].userId == userid) {
         console.log(this.state.data[i]);
         this.setState({
           buttonValue: "Update Record",
+          buttonClassName: "btn btn-info",
           userid: this.state.data[i].userId,
           username: this.state.data[i].name,
           age: this.state.data[i].age,
@@ -182,8 +167,8 @@ class Main extends React.Component {
       <div id="main">
         <form>
           <p> {this.state.errmsg}</p>
+
           <p>Enter your name:</p>
-          {this.state.username}
           <input
             type="text"
             name="username"
@@ -191,8 +176,9 @@ class Main extends React.Component {
             onChange={(e) => this.setState({ username: e.target.value })}
             required
           />
-
+          
           <p>Enter your age:</p>
+        
           <input
             type="text"
             name="age"
@@ -202,6 +188,7 @@ class Main extends React.Component {
           />
 
           <p>Enter your phone number:</p>
+
           <input
             type="number"
             name="phone"
@@ -216,6 +203,7 @@ class Main extends React.Component {
           <input
             type="submit"
             name="button"
+            className={this.state.buttonClassName}
             onClick={(e) => this.handleFormSubmit(e)}
             value={this.state.buttonValue}
           />
@@ -249,7 +237,6 @@ class Main extends React.Component {
                     <span
                       className="glyphicon glyphicon-trash"
                       onClick={(i) => this.handleRemove(result.userId)}
-                      // onClick={() => this.handleRemove(result.userId)}
                     ></span>
                   </td>
                 </tr>
@@ -257,21 +244,6 @@ class Main extends React.Component {
             })}
           </tbody>
         </table>
-        {/* 
-        <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Modal heading</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-          <Button variant="primary" onClick={handleClose}>
-            Save Changes
-          </Button>
-        </Modal.Footer>
-      </Modal> */}
       </div>
     );
   }
