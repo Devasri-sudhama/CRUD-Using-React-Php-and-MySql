@@ -1,6 +1,7 @@
 
 <?php
 require('connect.php');
+
  $fetchData = mysqli_query($conn, "SELECT * FROM users");
     $rows = array();
     while($r = mysqli_fetch_assoc($fetchData)) {

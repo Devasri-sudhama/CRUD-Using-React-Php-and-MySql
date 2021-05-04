@@ -104,7 +104,7 @@ class Main extends React.Component {
   componentDidMount() {
     let status = false;
     axios
-      .get("getData.php")
+      .get(`http://localhost/reactJs-dbconn/getData.php`)
       .then((res) => {
         this.setState({ data: res.data });
       })

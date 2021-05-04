@@ -27,7 +27,7 @@ SET time_zone = "+00:00";
 --
 -- Table structure for table `users`
 --
-
+CREATE DATABASE [IF NOT EXISTS] react_db;
 CREATE TABLE `users` (
   `userId` int(11) NOT NULL,
   `name` varchar(30) NOT NULL,
